@@ -1,3 +1,19 @@
+from __future__ import division
+import pickle
+import pandas as pd 
+from math import isnan
+import numpy as np
+from math import lgamma
+import itertools
+from numpy.random import random
+from random import sample
+import time
+from copy import deepcopy
+import operator
+from collections import Counter, defaultdict
+from fim import fpgrowth,fim 
+from scipy.sparse import csc_matrix
+
 def predict_MRS(MRS,df):
     Z = np.zeros(len(df))
     for i,subdict in enumerate(MRS):
