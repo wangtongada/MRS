@@ -195,7 +195,7 @@ class MARS(object):
         #             if sum(self.df.ix[:,sup]>=self.df.ix[:,col])==self.N and sum(self.df.ix[:,sup]==self.df.ix[:,col])<self.N:
         #                 self.attribute_superset[col].append(sup)
 
-    def train(self, Niteration = 2000, Nchain = 3, q=0.3, print_message=False,init = []):
+    def train(self, Niteration = 2000, q=0.3, print_message=False,init = []):
         self.precompute()
         start_time = time.time()
         self.Y = np.array(self.Y)
@@ -342,7 +342,7 @@ class MARS(object):
                 self.M.append(np.ceil(np.true_divide(self.Lup +self.LP0 - pt_new,np.log(self.Omega))))
                 self.minsupp.append(np.ceil(np.true_divide(np.log(np.true_divide(self.M[-1]+self.alpha_M-1,self.M[-1]*self.alpha_M*self.Omega)),self.LUpsilon)))
                 self.rulespace.append(len(np.where(self.all_rulelen>= self.minsupp[-1])[0]))
-                print('\n** chain = {}, max at iter = {} ** \nTP = {},FN = {}, FP = {}, TN = {}\n pt_new is {}, prior_NumOfRules= {}, prior_LenOfRules = {}, prior_ChsItems = {}, likelihood_1 = {}, likelihood_2 = {}\n accuracy = {}, tpr = {}, fpr = {}\n M = {}, supp = {}'.format(chain, iter,TP,FN,FP,TN,pt_new, prob[0], prob[1],prob[2],prob[3], prob[4],float(TP+TN)/(FP+TP+TN+FN),tpr,fpr,self.M[-1],self.minsupp[-1]))
+                print('\n** max at iter = {} ** \nTP = {},FN = {}, FP = {}, TN = {}\n pt_new is {}, prior_NumOfRules= {}, prior_LenOfRules = {}, prior_ChsItems = {}, likelihood_1 = {}, likelihood_2 = {}\n accuracy = {}, tpr = {}, fpr = {}\n M = {}, supp = {}'.format(iter,TP,FN,FP,TN,pt_new, prob[0], prob[1],prob[2],prob[3], prob[4],float(TP+TN)/(FP+TP+TN+FN),tpr,fpr,self.M[-1],self.minsupp[-1]))
                 # print('Size = {}, supp = {}'.format(self.M[-1],self.supp[-1]))
                 print('merged MRS_merged is')
                 self.MRS_max = MRS_max
