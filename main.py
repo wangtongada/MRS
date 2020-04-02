@@ -225,7 +225,7 @@ class MARS(object):
                 print('========= iteration = {} ========='.format(iter))
             # MRS_new_len = len(MRS_curr)
             if iter>0.75*Niteration:
-                Yhat_curr,pt_curr,W_curr,V_curr,MRS_curr_rlens,MRS_curr_len = Yhat_max[:],pt_max,W_max[:],V_max[:],MRS_max_rlens[:],MRS_max_len
+                Yhat_curr,pt_curr,W_curr,V_curr,MRS_curr_rlens,MRS_curr_len = Yhat_max.copy(),pt_max,W_max.copy(),V_max.copy(),MRS_max_rlens.copy(),MRS_max_len
                 MRS_curr = [subdict for subdict in MRS_max]
             MRS_new = [deepcopy(subdict) for subdict in MRS_curr]
             # self.MRS_new = [deepcopy(subdict) for subdict in MRS_curr]
@@ -336,7 +336,7 @@ class MARS(object):
                 fpr = float(FP)/(FP+TN)
                 MRS_max = [deepcopy(subdict) for subdict in MRS_new]
                 # MRS_max_merged = [copy.deepcopy(subdict) for subdict in MRS_merged]
-                pt_max,Yhat_max, W_max,V_max, MRS_max_rlens, MRS_max_len = pt_new, Yhat_new[:],W_new[:],V_new[:],MRS_new_rlens[:],MRS_new_len
+                pt_max,Yhat_max, W_max,V_max, MRS_max_rlens, MRS_max_len = pt_new, Yhat_new.copy(),W_new.copy(),V_new.copy(),MRS_new_rlens.copy(),MRS_new_len
 
                 self.MRS_max = MRS_max
                 self.M.append(np.ceil(np.true_divide(self.Lup +self.LP0 - pt_new,np.log(self.Omega))))
@@ -352,7 +352,7 @@ class MARS(object):
             if random() <= alpha:
                 # print 'rules_curr is {},flip={}, threshold = {} move is {}'.format(rules_curr,flip,threshold,move)
                 MRS_curr = [deepcopy(subdict) for subdict in MRS_new]
-                Yhat_curr,pt_curr,W_curr,V_curr,MRS_curr_rlens,MRS_curr_len = Yhat_new[:],pt_new,W_new[:],V_new[:],MRS_new_rlens[:],MRS_new_len
+                Yhat_curr,pt_curr,W_curr,V_curr,MRS_curr_rlens,MRS_curr_len = Yhat_new.copy(),pt_new,W_new.copy(),V_new.copy(),MRS_new_rlens.copy(),MRS_new_len
                 if print_message:
                     print('ACCEPT the new MRS\n')
         MRS_merged = self.merge(MRS_max)
@@ -463,8 +463,8 @@ class MARS(object):
         if len(attributes)>0:
             att = sample(attributes,1)[0]
             vals = list(set(MRS_new[r2][att]).union(set(MRS_new[r1][att])))
-            MRS_new[r2][att] = vals[:]
-            MRS_new[r1][att] = vals[:]
+            MRS_new[r2][att] = vals.copy()
+            MRS_new[r1][att] = vals.copy()
             return
         if len(Z[r1])<=len(Z[r2]): # r1 is the shorter rule
             attributes = MRS_new[r1].keys()
@@ -477,8 +477,8 @@ class MARS(object):
                         break
                     else:
                         vals = list(set(MRS_new[r2][att]).union(set(MRS_new[r1][att])))
-                        MRS_new[r2][att] = vals[:]
-                        MRS_new[r1][att] = vals[:]
+                        MRS_new[r2][att] = vals.copy()
+                        MRS_new[r1][att] = vals.copy()
                         break
         else:
             attributes = MRS_new[r2].keys()
@@ -491,8 +491,8 @@ class MARS(object):
                         break
                     else:
                         vals = list(set(MRS_new[r1][att]).union(set(MRS_new[r2][att])))
-                        MRS_new[r2][att] = vals[:]
-                        MRS_new[r1][att] = vals[:]
+                        MRS_new[r2][att] = vals.copy()
+                        MRS_new[r1][att] = vals.copy()
                         break
 
 
