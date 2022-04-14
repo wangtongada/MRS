@@ -108,7 +108,8 @@ class MRS(object):
                 index.append(rules.index(rule))
         self.rulespace = [len(rules)]
         self.all_rulelen = np.array([len(rule) for rule in rules])
-        self.screen_rules(rules,df,N,supp,criteria,njobs,index) # select the top N rules using secondary criteria, information gain
+        self.screen_rules(rules,df,N,supp,criteria,
+                          ,index) # select the top N rules using secondary criteria, information gain
 
     def screen_rules(self,rules,df,N,supp,criteria = 'precision',njobs = 5,add_rules = []):
         # print 'screening rules'
@@ -234,15 +235,15 @@ class MRS(object):
                 self.printMRS(MRS_new)
             added_rule = False
             self.memory[iter] = MRS_new
-            if random()>np.exp(-np.true_divide(iter,1.5*Niteration)) or MRS_curr_len ==1:
-                incorr = np.where(self.Y!=Yhat_curr)[0]
-                if len(incorr)==0:
+            if random()>np.exp(-np.true_divide(iter,1.5*Niteration)) or MRS_curr_len ==1: # proposing a new solution
+                incorr = np.where(self.Y!=Yhat_curr)[0] # collect misclassified example
+                if len(incorr)==0: # every data point is correctly classified
                     trim = False
                     break
                     # it means the MRS correctly classified all points but the rule could be redundant, so triming is needed
                 else:
                     trim = False
-                    ex = sample(list(incorr),1)[0]
+                    ex = sample(list(incorr),1)[0] # sample from misclassified 
                     ex_dict = defaultdict(list) # conditions that ex satisfies
                     for i,name in enumerate(self.df.columns):
                         attr_name = name.split('_')[0]
