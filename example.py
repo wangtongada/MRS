@@ -2,6 +2,9 @@ from pandas.io.parsers import read_csv
 import numpy as np
 import pandas as pd
 
+supp = 5
+maxlen = 3
+Nrules = 5000
 
 def code_intervals_nlevel(df,collist,Nlevel):
     for col in collist:
