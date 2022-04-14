@@ -16,7 +16,7 @@ from scipy.sparse import csc_matrix
 from util import *
 
 
-class MARS(object):
+class MRS(object):
     def __init__(self,data,Y):
         self.attributeLevelNum = defaultdict(int) 
         self.attributeLevelNames = defaultdict(list)
