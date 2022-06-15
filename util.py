@@ -98,7 +98,7 @@ def code_categorical(df,colnames,missingvalue):
                 df[col+'_'+str(val)] = (df[col]==val).astype(int)
     df.drop(colnames, axis = 1, inplace = True)
 
-    def extract_rules(tree, feature_names):
+def extract_rules(tree, feature_names):
     left      = tree.tree_.children_left
     right     = tree.tree_.children_right
     threshold = tree.tree_.threshold
