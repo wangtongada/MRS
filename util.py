@@ -97,3 +97,37 @@ def code_categorical(df,colnames,missingvalue):
             if val not in missingvalue:
                 df[col+'_'+str(val)] = (df[col]==val).astype(int)
     df.drop(colnames, axis = 1, inplace = True)
+
+    def extract_rules(tree, feature_names):
+    left      = tree.tree_.children_left
+    right     = tree.tree_.children_right
+    threshold = tree.tree_.threshold
+    features  = [feature_names[i] for i in tree.tree_.feature]
+    # get ids of child nodes
+    idx = np.argwhere(left == -1)[:,0]     
+
+    def recurse(left, right, child, lineage=None):          
+        if lineage is None:
+            lineage = []
+        if child in left:
+            parent = np.where(left == child)[0].item()
+            suffix = '_neg'
+        else:
+            parent = np.where(right == child)[0].item()
+            suffix = ''
+
+        #           lineage.append((parent, split, threshold[parent], features[parent]))
+        lineage.append((features[parent].strip()+suffix))
+
+        if parent == 0:
+            lineage.reverse()
+            return lineage
+        else:
+            return recurse(left, right, parent, lineage)   
+    rules = []
+    for child in idx:
+        rule = []
+        for node in recurse(left, right, child):
+            rule.append(node)
+        rules.append(rule)
+    return rules
